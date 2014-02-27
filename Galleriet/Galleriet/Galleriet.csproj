@@ -62,7 +62,11 @@
   <ItemGroup>
     <Content Include="Default.aspx" />
     <Content Include="Error.html" />
+    <Content Include="Global.asax" />
     <Content Include="packages.config" />
+    <None Include="Scripts\jquery-2.0.3.intellisense.js" />
+    <Content Include="Scripts\jquery-2.0.3.js" />
+    <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Content Include="Style\Style.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -76,11 +80,15 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="Model\Gallery.cs" />
     <Compile Include="Model\ThumbImage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\jquery-2.0.3.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

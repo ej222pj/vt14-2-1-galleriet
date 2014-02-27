@@ -37,17 +37,11 @@ namespace Galleriet
             }
 
             // Vid lyckad uppladdning visas ett rättsmeddelande
-            if (Request.QueryString["uploaded"] == "success")
+            if (Session["uploaded"] == "success")
             {
+                Session.Remove("uploaded");
                 StatusLabel.Visible = true;
                 StatusLabel.Text = String.Format("Bilden '{0}' har sparats.", picName);
-            }
-
-            // Vid misslyckad uppladdning visas ett felmeddelande
-            if (Request.QueryString["uploaded"] == "failed")
-            {
-                StatusLabel.Visible = true;
-                StatusLabel.Text = String.Format("Ett fel inträffade då bilden '{0}' skulle överföras.", picName);
             }
         }
 
@@ -60,11 +54,14 @@ namespace Galleriet
                     try //Testar om uppladdningen lyckas
                     {
                         Gallery.SaveImage(UploadFile.FileContent, UploadFile.FileName);
-                        Response.Redirect("?img=" + UploadFile.FileName + "&uploaded=success", false);
+                        Session["uploaded"] = "success";
+                        Response.Redirect("?img=" + UploadFile.FileName, false);
+                        Context.ApplicationInstance.CompleteRequest();
                     }
                     catch (Exception)
                     {
-                        Response.Redirect("?img=" + UploadFile.FileName + "&uploaded=failed", false);
+                        StatusLabel.Visible = true;
+                        StatusLabel.Text = String.Format("Ett fel inträffade då bilden skulle överföras.");
                     }
                 }
             }
@@ -82,12 +79,12 @@ namespace Galleriet
             var obj = (ThumbImage)e.Item.DataItem;
 
             if (ThumbName == obj.Name)//Uppladade bilden
-            {                          
+            {
                 var hyperLink = (HyperLink)e.Item.FindControl("ThumbsHyperLink");
 
                 hyperLink.CssClass = "Thumbnail active_thumb";
             }
-            if (ThumbName == "\\" + obj.Name)//Bilden man klickar på
+            if(ThumbName == "\\" + obj.Name)//Bilden man klickar på
             {
                 var hyperLink = (HyperLink)e.Item.FindControl("ThumbsHyperLink");
 

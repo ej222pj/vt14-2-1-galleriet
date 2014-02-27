@@ -32,7 +32,7 @@
 							    </asp:HyperLink>
 						    </ItemTemplate>
 					    </asp:Repeater>
-				    </asp:Panel>
+				 </asp:Panel>
 
 
 
@@ -53,9 +53,6 @@
                 ControlToValidate="UploadFile" ValidationExpression=".*.(gif|GIF|jpg|JPG|png|PNG)"
                 ErrorMessage="Endast bilder av typerna gif, jpg eller png är tillåtna"
                 Display="None"></asp:RegularExpressionValidator>
-
-            	
-
         </div>
     </form>
 </body>

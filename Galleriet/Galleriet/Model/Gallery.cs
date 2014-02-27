@@ -53,36 +53,33 @@ namespace Galleriet.Model
         // Kollar om den uppladdade filen är rätt typ
         public static bool IsValidImage(Image image)
         {
-            if (image.RawFormat.Guid == ImageFormat.Gif.Guid ||
+            return image.RawFormat.Guid == ImageFormat.Gif.Guid ||
                 image.RawFormat.Guid == ImageFormat.Jpeg.Guid ||
-                image.RawFormat.Guid == ImageFormat.Png.Guid)
-            {
-                return true;
-            }
-            return false;
+                image.RawFormat.Guid == ImageFormat.Png.Guid;
         }
 
         // kontrollerar/sparar bild och skapar/sparar en tumnagelbild
         public static string SaveImage(Stream stream, string fileName)
         {
             var image = System.Drawing.Image.FromStream(stream);
-            fileName = SantizePath.Replace(fileName, "");
 
             if (!IsValidImage(image))
             {
                 throw new ArgumentException("Bilden har fel MIME-typ");
             }
 
+            fileName = SantizePath.Replace(fileName, "");
+
             if (ImageExists(fileName))//Om bilden finns lägger den på en (1)(2)... i slutet
             {
-                int count = 1;
+                int count = 0;
                 string fileNameOnly = Path.GetFileNameWithoutExtension(fileName);
                 string extension = Path.GetExtension(fileName);
                 string path = Path.GetDirectoryName(fileName);
 
                 while (ImageExists(fileName))
                 {
-                    fileName = string.Format("{0}({1}){2}", fileNameOnly, count++, extension);
+                    fileName = string.Format("{0}({1}){2}", fileNameOnly, ++count, extension);
                 }
             }
 
